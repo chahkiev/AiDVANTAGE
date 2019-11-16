@@ -25,7 +25,7 @@ SECRET_KEY = '^n!$o#)mg-6g&sv9zx28w&#3%bkkq26lat6_l__93w^97ghcvz'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['195.19.36.67', 'emdw2']
+ALLOWED_HOSTS = ['195.19.36.67', 'emdw2', '*']
 
 
 # Application definition

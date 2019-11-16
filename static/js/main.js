@@ -76,11 +76,15 @@ var surveyJSON = {
     ]
     };
 
+
+
 var survey = new Survey.Model(surveyJSON);
   $("#surveyContainer").Survey({
       model:survey,
       onComplete:sendDataToServer
   });
+
+Survey.StylesManager.applyTheme("bootstrap");
 
 function sendDataToServer(survey) {
     var resultAsString = JSON.stringify(survey.data);
