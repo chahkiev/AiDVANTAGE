@@ -1,0 +1,9 @@
+venv/
+__pycache__/
+aidvantage/__pycache__/
+deseasedetector/__pycache__/
+deseasedetector/migrations/
+media/media/
+media/uploads/
+db.sqlite3
+.vscode/
