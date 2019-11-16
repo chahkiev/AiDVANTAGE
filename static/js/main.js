@@ -11,72 +11,332 @@
 //    ]
 //   };
 
+// var surveyJSON = {
+//     "pages": [
+//     {
+//     "name": "page1",
+//     "elements": [
+//     {
+//     "type": "text",
+//     "name": "question1",
+//     "title": "ФИО"
+//     },
+//     {
+//     "type": "dropdown",
+//     "name": "question2",
+//     "title": "Выберите врача",
+//     "defaultValue": "item1",
+//     "choices": [
+//     {
+//     "value": "item1",
+//     "text": "Врач 1"
+//     },
+//     {
+//     "value": "item2",
+//     "text": "Врач 2"
+//     },
+//     {
+//     "value": "item3",
+//     "text": "Врач 3"
+//     }
+//     ]
+//     },
+//     {
+//     "type": "dropdown",
+//     "name": "question3",
+//     "title": "Время приема",
+//     "choices": [
+//     {
+//     "value": "item1",
+//     "text": "10:00"
+//     },
+//     {
+//     "value": "item2",
+//     "text": "10:10"
+//     },
+//     {
+//     "value": "item3",
+//     "text": "10:20"
+//     }
+//     ]
+//     },
+//     {
+//     "type": "checkbox",
+//     "name": "question4",
+//     "title": "Согласие на обработку персональных данных",
+//     "choices": [
+//     {
+//     "value": "item1",
+//     "text": "Даю согласие на обработку персональных данных"
+//     }
+//     ]
+//     }
+//     ]
+//     }
+//     ]
+//     };
+
 var surveyJSON = {
-    "pages": [
-    {
-    "name": "page1",
-    "elements": [
-    {
-    "type": "text",
-    "name": "question1",
-    "title": "ФИО"
-    },
-    {
-    "type": "dropdown",
-    "name": "question2",
-    "title": "Выберите врача",
-    "defaultValue": "item1",
-    "choices": [
-    {
-    "value": "item1",
-    "text": "Врач 1"
-    },
-    {
-    "value": "item2",
-    "text": "Врач 2"
-    },
-    {
-    "value": "item3",
-    "text": "Врач 3"
-    }
-    ]
-    },
-    {
-    "type": "dropdown",
-    "name": "question3",
-    "title": "Время приема",
-    "choices": [
-    {
-    "value": "item1",
-    "text": "10:00"
-    },
-    {
-    "value": "item2",
-    "text": "10:10"
-    },
-    {
-    "value": "item3",
-    "text": "10:20"
-    }
-    ]
-    },
-    {
-    "type": "checkbox",
-    "name": "question4",
-    "title": "Согласие на обработку персональных данных",
-    "choices": [
-    {
-    "value": "item1",
-    "text": "Даю согласие на обработку персональных данных"
-    }
-    ]
-    }
-    ]
-    }
-    ]
-    };
 
-
+  "locale": "ru",
+  
+  "loadingHtml": "Загрузка",
+  
+  "pages": [
+  
+  {
+  
+  "name": "page1",
+  
+  "elements": [
+  
+  {
+  
+  "type": "text",
+  
+  "name": "FIO",
+  
+  "title": "ФИО",
+  
+  "isRequired": true,
+  
+  "requiredErrorText": "Пожалуйста заполните поле"
+  
+  },
+  
+  {
+  
+  "type": "dropdown",
+  
+  "name": "Doctor",
+  
+  "title": "Выберите врача",
+  
+  "isRequired": true,
+  
+  "requiredErrorText": "Пожалуйста заполните поле",
+  
+  "commentText": "Выберите врача",
+  
+  "choices": [
+  
+  {
+  
+  "value": "1",
+  
+  "text": "Врач 1"
+  
+  },
+  
+  {
+  
+  "value": "2",
+  
+  "text": "Врач 2"
+  
+  },
+  
+  {
+  
+  "value": "3",
+  
+  "text": "Врач 3"
+  
+  }
+  
+  ],
+  
+  "otherText": "Выберите врача",
+  
+  "optionsCaption": "Выберите врача",
+  
+  "showOptionsCaption": false
+  
+  },
+  
+  {
+  
+  "type": "dropdown",
+  
+  "name": "Time",
+  
+  "title": "Время приема",
+  
+  "choices": [
+  
+  {
+  
+  "value": "1",
+  
+  "text": "10:00"
+  
+  },
+  
+  {
+  
+  "value": "2",
+  
+  "text": "10:10"
+  
+  },
+  
+  {
+  
+  "value": "3",
+  
+  "text": "10:20"
+  
+  }
+  
+  ],
+  
+  "showOptionsCaption": false
+  
+  },
+  
+  {
+  
+  "type": "checkbox",
+  
+  "name": "Personal info",
+  
+  "title": "Согласие на обработку персональных данных",
+  
+  "isRequired": true,
+  
+  "requiredErrorText": "Пожалуйста заполните поле",
+  
+  "choices": [
+  
+  {
+  
+  "value": "1",
+  
+  "text": "Даю согласие на обработку персональных данных"
+  
+  }
+  
+  ]
+  
+  }
+  
+  ],
+  
+  "title": "Личная информация",
+  
+  "navigationButtonsVisibility": "show"
+  
+  },
+  
+  {
+  
+  "name": "page2",
+  
+  "elements": [
+  
+  {
+  
+  "type": "radiogroup",
+  
+  "name": "question1",
+  
+  "title": "Вопрос 1",
+  
+  "isRequired": true,
+  
+  "choices": [
+  
+  {
+  
+  "value": "item1",
+  
+  "text": "Ответ 1"
+  
+  },
+  
+  {
+  
+  "value": "item2",
+  
+  "text": "Ответ 2"
+  
+  },
+  
+  {
+  
+  "value": "item3",
+  
+  "text": "Ответ 3"
+  
+  }
+  
+  ]
+  
+  }
+  
+  ]
+  
+  },
+  
+  {
+  
+  "name": "page3",
+  
+  "elements": [
+  
+  {
+  
+  "type": "radiogroup",
+  
+  "name": "question2",
+  
+  "title": "Вопрос 2",
+  
+  "isRequired": true,
+  
+  "choices": [
+  
+  {
+  
+  "value": "item1",
+  
+  "text": "Да"
+  
+  },
+  
+  {
+  
+  "value": "item2",
+  
+  "text": "Нет"
+  
+  }
+  
+  ]
+  
+  }
+  
+  ]
+  
+  }
+  
+  ],
+  
+  "showQuestionNumbers": "off",
+  
+  "showProgressBar": "top",
+  
+  "goNextPageAutomatic": true,
+  
+  "startSurveyText": "Начать анкету",
+  
+  "pagePrevText": "Вернуться",
+  
+  "pageNextText": "Далее",
+  
+  "completeText": "Завершить"
+  
+  };
 
 var survey = new Survey.Model(surveyJSON);
   $("#surveyContainer").Survey({
