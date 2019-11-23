@@ -1,0 +1,33 @@
+{% extends "DiseaseDetector/base.html" %}
+{% load static %}
+
+
+
+
+{% block headerName %}
+    <h3>Sign In</h3>
+{% endblock %}
+
+{% block content %}
+    <div class="main">
+        <h3>Sign in, please, or <a href="">register</a></h3> <br>
+        <form class="form-horizontal" action="/signin/?next={{ request.GET.next }}" method="post">
+            {% csrf_token %}
+            <div class="col-md-6">
+                <fieldset>
+
+                    {% for field in form %}
+                        <div class="form-group">
+                            {{ field }}
+                        </div>
+                    {% endfor %}
+
+                    <div class="form-group">
+                        <input type="submit" value="Login" class="btn btn-success"/>
+                    </div>
+
+                </fieldset>
+            </div>
+        </form>
+    </div>
+{% endblock %}

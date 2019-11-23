@@ -4,4 +4,6 @@ from DiseaseDetector.views import *
 
 urlpatterns = [
     url(r'^$', main, name='main'),
+    url(r'^signin/$', signin, name='signin'),
+    url(r'^signout/$', signout, name='signout'),
 ]
