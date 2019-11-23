@@ -1,2 +1,22 @@
-{% extends 'question/base.html' %}
+{% extends 'DiseaseDetector/base.html' %}
 {% load static %}
+
+{% block styles %}
+    <link rel="stylesheet" href="{% static 'css/profile.css' %}">
+{% endblock %}
+
+{% block headerName %}
+    <h1>{{ profile.username }}</h1>
+{% endblock %}
+
+{% block content %}
+    <div class="masthead-lead">
+        <div class="profile-info-block">
+            <h4><i>First name: </i> {{ profile.first_name }}</h4>
+            <h4><i>Last name: </i>{{ profile.last_name }}</h4>
+            <hr>
+        </div>
+        <hr>
+
+    </div>
+{% endblock %}

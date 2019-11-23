@@ -40,6 +40,17 @@ def signout(request):
 	logout(request)
 	return redirect('/')
 
+def profile(request, username):
+	user = User.objects.by_username(username)
+	if user is not None:
+		return render(request, 'DiseaseDetector/profile.html', {'profile': user})
+	else:
+		raise Http404
+
+
+def anketa(request):
+    return render(request, 'DiseaseDetector/anketa.html', )
+
 
 def survey_questionnaire(request: HttpRequest) -> HttpResponse:
     survey_json = {
