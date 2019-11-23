@@ -7,3 +7,4 @@ media/media/
 media/uploads/
 db.sqlite3
 .vscode/
+.idea
