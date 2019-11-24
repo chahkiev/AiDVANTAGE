@@ -321,3 +321,8 @@ class OncologyAlertnessQuestionnaire:
         }
 
         return json.dumps(all_survey, ensure_ascii=False, indent=4, sort_keys=True)
+
+
+# on client Survey.Model(surveyjs_io_json); отрисовывает анкету
+# https://surveyjs.io/Overview/Library/
+surveyjs_io_json: str = OncologyAlertnessQuestionnaire.to_surveyjs_io_json()

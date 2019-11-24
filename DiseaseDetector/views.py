@@ -11,7 +11,7 @@ from django.shortcuts import render, redirect
 
 from DiseaseDetector.forms import UserLoginForm
 from DiseaseDetector.models import *
-from .domain.survey import OncologyAlertnessQuestionnaire
+from .domain.survey import surveyjs_io_json, OncologyAlertnessQuestionnaire
 
 
 def main(request):
@@ -53,9 +53,11 @@ def survey(request):
     return render(request, 'DiseaseDetector/survey.html', )
 
 
-# определяет анкету
-survey_json = OncologyAlertnessQuestionnaire.to_surveyjs_io_json()
-
-
 def survey_questionnaire(request: HttpRequest) -> HttpResponse:
-    return JsonResponse(survey_json, safe=False)
+    return JsonResponse(surveyjs_io_json, safe=False)
+
+
+def survey_response(request: HttpRequest) -> HttpResponse:
+    result = OncologyAlertnessQuestionnaire.from_json(request.body)
+    # TODO: create database for answer
+    # TODO: save as json to database
