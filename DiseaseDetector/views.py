@@ -49,8 +49,8 @@ def profile(request, username):
         raise Http404
 
 
-def anketa(request):
-    return render(request, 'DiseaseDetector/anketa.html', )
+def survey(request):
+    return render(request, 'DiseaseDetector/survey.html', )
 
 
 # определяет анкету
