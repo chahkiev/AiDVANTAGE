@@ -1,3 +1,4 @@
+/* TODO: it is wrong - head + 100% scrollable without reason. */
 .vertical-center {
     min-height: 100%;  /* Fallback for browsers do NOT support vh unit */
     min-height: 100vh; /* These two lines are counted as one :-)       */

@@ -6,21 +6,9 @@
     <input class="form-control mr-sm-2" type="search" placeholder="What is your question?" aria-label="Search">
     <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Ask</button>
   </form>
-  <!-- <div class="btn-group" role="group">
-    <img src="{% static 'img/1.jpg' %}" class="mr-3" alt="..." width="35" height="45">
-    <button id="btnGroupDrop1" type="button" class="btn dropdown-toggle btn-outline-dark" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-      Magomed Chahkiev
-    </button>
-    <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-      <a class="dropdown-item" href="#">Settings</a>
-      <a class="dropdown-item" href="#">Logout</a>
-    </div>
-  </div> -->
   {% if user.is_authenticated %}
   <div class="btn-group" role="group">
-    <!-- <img src="{% static 'img/1.jpg' %}" class="mr-3" alt="..." width="35" height="45"> -->
     <button id="btnGroupDrop1" type="button" class="btn dropdown-toggle btn-outline-dark" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-      <!-- Magomed Chahkiev -->
       {{ user }}
     </button>
     <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">

@@ -1,16 +1,11 @@
-FROM python:3-slim
-LABEL author="Chahkiev Magomed"
+FROM python:3.8-alpine3.10
+LABEL author="Chahkiev Magomed;OlegSchwann"
 
-RUN apt-get update && apt-get install -y \
-    git \
-    vim
+COPY . '/home/aidvantage'
 
-WORKDIR /home/AiDVANTAGE
-ADD . .
+RUN /usr/local/bin/python3.8 -m pip install --requirement /home/aidvantage/requirements.txt && \
+    /usr/local/bin/python3.8 /home/aidvantage/manage.py migrate;
 
-RUN pip3 install -r requirements.txt  && \
-    python3 manage.py makemigrations && \
-    python3 manage.py makemigrations DiseaseDetector && \
-    python3 manage.py migrate
-
-# ENTRYPOINT ["python3", "manage.py", "runserver", "0.0.0.0:8000"]
+EXPOSE 8000
+CMD ["/usr/local/bin/python3.8", "/home/aidvantage/manage.py", "runserver", "0.0.0.0:8000"]
+# firefox "http://$( docker inspect $( docker ps --quiet ) --format='{{ .NetworkSettings.Networks.bridge.IPAddress }}' ):8000"; # run on host for open fromt page
