@@ -4,8 +4,10 @@ from DiseaseDetector.views import *
 
 urlpatterns = [
     # Главная .html странаца с регистрацией.
-    url(r'^$', signin, name='signin'),
+    url(r'^$', main, name='main'),
 
+    url(r'^signin/$', signin, name='signin'),
+    url(r'^signup/$', signup, name='signup'),
     url(r'^signout/$', signout, name='signout'),
 
     # .html страница с опросом
@@ -22,5 +24,6 @@ urlpatterns = [
 
     url(r'^survey_response/$', survey_response, name='survey_response'),
 
+    # возвращает страницу с данными пользователя
     url(r'^user/(?P<username>[a-zA-Zа-яА-Я _\-.0-9]+?)$', profile, name='profile'),
 ]

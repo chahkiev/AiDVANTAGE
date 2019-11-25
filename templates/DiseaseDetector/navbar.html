@@ -2,27 +2,24 @@
 
 <nav class="navbar navbar-light bg-light">
   <a href="" class="navbar-brand col-lg-5">AiDVANTAGE</a>
-  <form class="form-inline">
-    <input class="form-control mr-sm-2" type="search" placeholder="What is your question?" aria-label="Search">
-    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Ask</button>
-  </form>
+
   {% if user.is_authenticated %}
-  <div class="btn-group" role="group">
-    <button id="btnGroupDrop1" type="button" class="btn dropdown-toggle btn-outline-dark" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-      {{ user }}
-    </button>
-    <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-      <a class="dropdown-item" href="">Settings</a>
-      <a class="dropdown-item" href="/signout/?from={{ request.get_full_path }}">Logout</a>
+    <div class="btn-group" role="group">
+      <button id="btnGroupDrop1" type="button" class="btn dropdown-toggle btn-outline-dark" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        {{ user }}
+      </button>
+      <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+        <a class="dropdown-item" href="/signout/?from={{ request.get_full_path }}">Logout</a>
+      </div>
     </div>
-  </div>
   {% else %}
-  <ul class="nav navbar-nav navbar-right">
-    <p>
+    <ul class="nav navbar-nav navbar-right">
+      <p>
         <a href="/survey">
-        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Анкета</button>
-      </a>
-    </p>
-  </ul>
+          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Анкета</button>
+        </a>
+      </p>
+    </ul>
   {% endif %}
+
 </nav>

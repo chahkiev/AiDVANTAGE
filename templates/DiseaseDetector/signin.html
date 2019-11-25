@@ -9,25 +9,39 @@
 {% endblock %}
 
 {% block content %}
-    <div class="main">
-        <h3>Sign in, please, or <a href="">register</a></h3> <br>
-        <form class="form-horizontal" action="/signin/?next={{ request.GET.next }}" method="post">
-            {% csrf_token %}
-            <div class="col-md-6">
-                <fieldset>
-
-                    {% for field in form %}
-                        <div class="form-group">
-                            {{ field }}
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-2 col-sm-0"></div>
+            <div class="col-lg-8 col-sm-12">
+                <div class="main">
+                    <h3>
+                        Sign in, please, or 
+                        <a href="{% url 'signup' %}">register</a> 
+                        get access for survey
+                    </h3> 
+                    <br />
+            
+                    <form class="form-horizontal" action="/signin/?next={{ request.GET.next }}" method="post">
+                        {% csrf_token %}
+                        <div class="col-md-6">
+                            <fieldset>
+            
+                                {% for field in form %}
+                                    <div class="form-group">
+                                        {{ field }}
+                                    </div>
+                                {% endfor %}
+            
+                                <div class="form-group">
+                                    <input type="submit" value="Login" class="btn btn-success"/>
+                                </div>
+            
+                            </fieldset>
                         </div>
-                    {% endfor %}
-
-                    <div class="form-group">
-                        <input type="submit" value="Login" class="btn btn-success"/>
-                    </div>
-
-                </fieldset>
+                    </form>
+                </div>
             </div>
-        </form>
+            <div class="col-lg-2 col-sm-0"></div>
+        </div>
     </div>
 {% endblock %}

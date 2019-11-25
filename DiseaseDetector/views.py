@@ -8,14 +8,29 @@ from django.http import HttpResponse
 from django.http import JsonResponse
 from django.http.request import HttpRequest
 from django.shortcuts import render, redirect
+from django.contrib import auth
 
-from DiseaseDetector.forms import UserLoginForm
+from DiseaseDetector.forms import UserLoginForm, UserRegistrationForm
 from DiseaseDetector.models import *
 from .domain.survey import surveyjs_io_json, OncologyAlertnessQuestionnaire
 
 
 def main(request):
-    return render(request, 'DiseaseDetector/base.html', )
+    return redirect('signin')
+
+def signup(request):
+	if request.method == 'POST':
+		form = UserRegistrationForm(request.POST, request.FILES)
+		if form.is_valid():
+			user = form.save()
+			user.set_password(form.cleaned_data['password'])
+			user.save()
+			login(request, user)
+			return redirect('/')
+	else:
+		form = UserRegistrationForm()
+		logout(request)
+	return render(request, 'DiseaseDetector/signup.html', {'form': form})
 
 
 def signin(request):
@@ -27,17 +42,20 @@ def signin(request):
             user = authenticate(username=username, password=password)
             if user is not None:
                 login(request, user)
-                return redirect(request.GET.get('next') if request.GET.get('next') != '' else '/')
-    else:
-        form = UserLoginForm()
-        logout(request)
-    return render(request, 'DiseaseDetector/signin.html', {'form': form})
+                return redirect('/survey')
+
+    if request.method == 'GET':
+        if auth.get_user(request).is_anonymous:
+            form = UserLoginForm()
+            return render(request, 'DiseaseDetector/signin.html', {'form': form})
+        else:
+            return redirect('/survey')
+    
 
 
 def signout(request):
-    if not request.user.is_authenticated:
-        raise Http404
-    logout(request)
+    if request.user.is_authenticated:
+        logout(request)
     return redirect('/')
 
 
@@ -50,8 +68,10 @@ def profile(request, username):
 
 
 def survey(request):
-    return render(request, 'DiseaseDetector/survey.html', )
-
+    if auth.get_user(request).is_anonymous:
+        return redirect('/signin')
+    else:
+        return render(request, 'DiseaseDetector/survey.html', )
 
 def survey_questionnaire(request: HttpRequest) -> HttpResponse:
     return JsonResponse(surveyjs_io_json, safe=False)
