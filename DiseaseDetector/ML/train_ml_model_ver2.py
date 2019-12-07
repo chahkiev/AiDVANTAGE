@@ -7,11 +7,11 @@ def read_dataset_csv():
     """
     # Ужаляем столбец Unnme: 0
     df = pd.read_csv('./DiseaseDetector/ML/post_dataframe.csv', index_col='Unnamed: 0')
-    df_d = df['Диагноз'].values
-    for i in range(len(df_d)):
-        if df_d[i] == 2:
-            df_d[i] = 1
-    df['Диагноз'] = df_d[:]
+#     df_d = df['Диагноз'].values
+#     for i in range(len(df_d)):
+#         if df_d[i] == 2:
+#             df_d[i] = 1
+#     df['Диагноз'] = df_d[:]
     return df
 
 def train_model():
@@ -43,7 +43,7 @@ def train_model():
     print("\nNaive Baies:\nTrain: {}".format(bernoulli.score(X_train, y_train)))
     print("Test: {}".format(bernoulli.score(X_test, y_test)))
     import pickle
-    pickle.dump(bernoulli, open('./DiseaseDetector/ML/trained_model.sav', 'wb'))
+    pickle.dump(bernoulli, open('./DiseaseDetector/ML/trained_model_ver2.sav', 'wb'))
 
 def save_trained_model(model):
     """
@@ -64,3 +64,5 @@ def save_trained_model(model):
 
 if __name__ == '__main__':
     train_model()
+    
+    

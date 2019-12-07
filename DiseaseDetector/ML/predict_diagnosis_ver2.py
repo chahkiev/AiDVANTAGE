@@ -1,25 +1,13 @@
 import pandas as pd
 import numpy as np
-import json
 
-js_default = {'q0':"Мужской",'q1':1,'q2':"Нет",'q3':"Нет",'q4':"Не знаю",'q5':"Нет",'q6':"Нет, никогда не курил","q7":"Не курю","q8":"Нет","q9":"Нет","q10":"Вообще не проходил","q11":"Нет","q12":"Нет","q13":"Не помню","q14":"Нет","q15":"Нет","q16":"Нет","q17":"Нет","q18":"Нет","q19":"Нет","q20":"Нет","q21":"Нет","q22":"Нет","q23":"Нет","q24":"Не знаю","q25":"Нет","q26":"Нет","q27":"Нет","q28":"Нет","q29":"Нет","q30":"Нет","q31":"Нет","q32":"Да"} 
+js = {'q0':"Мужской",'q1':1,'q2':"Нет",'q3':"Нет",'q4':"Не знаю",'q5':"Нет",'q6':"Нет, никогда не курил","q7":"Не курю","q8":"Нет","q9":"Нет","q10":"Вообще не проходил","q11":"Нет","q12":"Нет","q13":"Не помню","q14":"Нет","q15":"Нет","q16":"Нет","q17":"Нет","q18":"Нет","q19":"Нет","q20":"Нет","q21":"Нет","q22":"Нет","q23":"Нет","q24":"Не знаю","q25":"Нет","q26":"Нет","q27":"Нет","q28":"Нет","q29":"Нет","q30":"Нет","q31":"Нет","q32":"Да"} 
 
-def json_to_arr(js=js_default):
+def json_to_arr(js):
     """
     Подготавливаем данные
     """
-    print("def", type(js_default))
-    print("was", type(js))
-    js = json.loads(js)
-    print("is", type(js))
-
-    print(js)
-    print(js_default)
-    print(js == js_default)
-    js=js_default
     df = pd.DataFrame(js, index=[0])
-
-    print("df: ", df)
 
     col_name = "q0"
     df.loc[df[col_name] == "Мужской", col_name] = 1
@@ -170,18 +158,19 @@ def predict_diagnosis(answers):
     Предсказываем диагноз
     """
     import pickle
-    model = pickle.load(open('./DiseaseDetector/ML/trained_model.sav', 'rb'))
-
+    model = pickle.load(open('./DiseaseDetector/ML/trained_model_ver2.sav', 'rb'))
     diagnosis = model.predict(answers.reshape(1, -1))
-
+    
     res = ''
     
     if diagnosis == 0:
         res = 'Низкая вероятность онкологического заболевания'
     elif diagnosis == 1:
+        res = 'Онкологическое заболевание возможно и требуется проведение дополнительных процедур'
+    elif diagnosis == 2:
         res = 'Высокая вероятность онкологического заболевания'
-
+    
     return res
 
 # if __name__ == '__main__':
-#     print(int(predict_diagnosis(json_to_arr(js_default))))
+#     print(predict_diagnosis(json_to_arr(js)))
