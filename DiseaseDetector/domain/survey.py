@@ -1,5 +1,4 @@
 import datetime
-import json
 import typing
 from enum import Enum
 
@@ -251,20 +250,6 @@ class OncologyAlertnessQuestionnaire:
 
     q30: Q30
 
-    class Q31(Enum):
-        """Бывают ли у Вас сукровичные (или кровянистые) выделения из половых путей, не связанные с месячным?"""
-        _0 = 'Да'
-        _1 = 'Нет'
-
-    q31: Q31
-
-    class Q32(Enum):
-        """Замечали ли Вы у себя кровянистые выделения из половых путей после половых сношений, гинекологических осмотров или при запорах?"""
-        _0 = 'Да'
-        _1 = 'Нет'
-
-    q32: Q32
-
     class Name(str):
         """Ваше имя"""
 
@@ -275,10 +260,24 @@ class OncologyAlertnessQuestionnaire:
 
     surname: Surname
 
+    class Q31(Enum):
+        """Бывают ли у Вас сукровичные (или кровянистые) выделения из половых путей, не связанные с месячным?"""
+        _0 = 'Да'
+        _1 = 'Нет'
+
+    q31: Q31 = Q31._1
+
+    class Q32(Enum):
+        """Замечали ли Вы у себя кровянистые выделения из половых путей после половых сношений, гинекологических осмотров или при запорах?"""
+        _0 = 'Да'
+        _1 = 'Нет'
+
+    q32: Q32 = Q32._1
+
     class DoctorName(str):
         """фамилия вашего доктора"""
 
-    doctor_name: typing.Optional[DoctorName] = None
+    doctor_name: DoctorName = None
 
     class ConsultationTime(datetime.datetime):
         """На какое время вы записаны к врачу"""
@@ -286,7 +285,7 @@ class OncologyAlertnessQuestionnaire:
     consultation_time: typing.Optional[ConsultationTime] = None
 
     @classmethod
-    def to_surveyjs_io_json(cls) -> str:
+    def to_surveyjs_io_json(cls) -> dict:
         def first_page() -> dict:
             return {
                 "name": f"Как с вами связаться?",
@@ -317,12 +316,11 @@ class OncologyAlertnessQuestionnaire:
             }
 
         # для всех вопросов с выбором ответов из нескольких вариантов
-        def one_page_enum(i: int, question: str, ansvers: typing.List[str]) -> dict:
+        def one_page_enum(field_name: str, question: str, ansvers: typing.List[str]) -> dict:
             return {
-                "name": f"Страница {i}",
                 "elements": [{
                     "type": "radiogroup",
-                    "name": f"q{i}",
+                    "name": field_name,
                     "title": question,
                     "isRequired": True,
                     "choices": [{
@@ -332,11 +330,10 @@ class OncologyAlertnessQuestionnaire:
                 ]
             }
 
-        def one_page_int(i: int) -> dict:
+        def one_page_int(field_name: str) -> dict:
             return {
-                "name": f"Страница {i}",
                 "elements": [{
-                    "name": f"q{i}",
+                    "name": field_name,
                     "type": "text",
                     "title": question,
                     "isRequired": True,
@@ -347,21 +344,29 @@ class OncologyAlertnessQuestionnaire:
         pages = list()
         pages.append(first_page())
 
-        for i, field_name in enumerate([
+        for field_name in [
             'q0', 'q1', 'q2', 'q3', 'q4', 'q5', 'q6', 'q7', 'q8', 'q9', 'q10', 'q11',
             'q12', 'q13', 'q14', 'q15', 'q16', 'q17', 'q18', 'q19', 'q20', 'q21',
-            'q22', 'q23', 'q24', 'q25', 'q26', 'q27', 'q28', 'q29', 'q30', 'q31', 'q32'
-        ]):
+            'q22', 'q23', 'q24', 'q25', 'q26', 'q27', 'q28', 'q29', 'q30'
+        ]:
             type_of_field: type = cls.__dataclass_fields__[field_name].type
             question = type_of_field.__doc__
             if issubclass(type_of_field, Enum):
                 answers = [field.value for _, field in type_of_field.__members__.items()]
-                pages.append(one_page_enum(i, question, answers))
+                pages.append(one_page_enum(field_name, question, answers))
             elif issubclass(type_of_field, int):
-                pages.append(one_page_int(i))
+                pages.append(one_page_int(field_name))
             else:
                 raise TypeError(
                     f"It is not clear how to generate a questionnaire for the type {type_of_field.__repr__()}")
+
+        for field_name in ['q31', 'q32']:
+            type_of_field: type = cls.__dataclass_fields__[field_name].type
+            question = type_of_field.__doc__
+            answers = [field.value for _, field in type_of_field.__members__.items()]
+            result = one_page_enum(field_name, question, answers)
+            result['visibleIf'] = f'{{q0}} = "{cls.Q0._0.value}"'  # показывать только для женщин
+            pages.append(result)
 
         all_survey = {
             "locale": "ru",
@@ -377,9 +382,9 @@ class OncologyAlertnessQuestionnaire:
             "completeText": "Завершить",
         }
 
-        return json.dumps(all_survey, ensure_ascii=False, indent=4, sort_keys=True)
+        return all_survey
 
 
 # on client Survey.Model(surveyjs_io_json); отрисовывает анкету
 # https://surveyjs.io/Overview/Library/
-surveyjs_io_json: str = OncologyAlertnessQuestionnaire.to_surveyjs_io_json()
+surveyjs_io_json: dict = OncologyAlertnessQuestionnaire.to_surveyjs_io_json()

@@ -3,8 +3,7 @@ from http import HTTPStatus
 from django.contrib import auth
 from django.contrib.auth import authenticate, login, logout
 from django.http import Http404
-from django.http import HttpResponse
-from django.http import JsonResponse
+from django.http import HttpResponse, JsonResponse
 from django.http.request import HttpRequest
 from django.shortcuts import render, redirect
 from django.views.decorators.csrf import csrf_exempt
@@ -74,7 +73,7 @@ def survey(request: HttpRequest) -> HttpResponse:
 
 
 def survey_questionnaire(request: HttpRequest) -> HttpResponse:
-    return JsonResponse(surveyjs_io_json, safe=False)
+    return JsonResponse(surveyjs_io_json)
 
 
 @csrf_exempt
