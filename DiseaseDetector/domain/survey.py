@@ -81,7 +81,7 @@ class OncologyAlertnessQuestionnaire:
     q7: Q7
 
     class Q8(Enum):
-        """В течении последних месяцев Вас беспокоил кашель?"""
+        """В течение последних месяцев Вас беспокоил кашель?"""
         _0 = 'Да, бывает с примесью или прожилками крови'
         _1 = 'Да, с мокротой'
         _2 = 'Да, сухой'
@@ -318,6 +318,12 @@ class OncologyAlertnessQuestionnaire:
             "completedHtml": "Спасибо, что прошли опрос. Врач просмотрит анкету перед вашим визитом.",
             "pages": pages,
             "showQuestionNumbers": "off",
+            "showProgressBar": "top",
+            "goNextPageAutomatic": True,
+            "startSurveyText": "Начать анкету",
+            "pagePrevText": "Вернуться",
+            "pageNextText": "Далее",
+            "completeText": "Завершить"
         }
 
         return json.dumps(all_survey, ensure_ascii=False, indent=4, sort_keys=True)

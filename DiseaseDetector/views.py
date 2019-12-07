@@ -68,9 +68,9 @@ def profile(request, username):
 
 
 def survey(request):
-    if auth.get_user(request).is_anonymous:
-        return redirect('/signin')
-    else:
+    #if auth.get_user(request).is_anonymous:
+    #    return redirect('/signin')
+    #else:
         return render(request, 'DiseaseDetector/survey.html', )
 
 def survey_questionnaire(request: HttpRequest) -> HttpResponse:
