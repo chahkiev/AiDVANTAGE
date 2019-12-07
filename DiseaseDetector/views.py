@@ -1,16 +1,12 @@
-# from django.shortcuts import render
-# from django.contrib.auth import authenticate, login, logout
-# from DiseaseDetector.forms import UserLoginForm
+from http import HTTPStatus
 
+from django.contrib import auth
 from django.contrib.auth import authenticate, login, logout
 from django.http import Http404
-from django.http import HttpResponse
-from django.http import JsonResponse
+from django.http import HttpResponse, JsonResponse
 from django.http.request import HttpRequest
 from django.shortcuts import render, redirect
-from django.contrib import auth
 from django.views.decorators.csrf import csrf_exempt
-import json
 
 from DiseaseDetector.forms import UserLoginForm, UserRegistrationForm
 from DiseaseDetector.models import *
@@ -19,25 +15,26 @@ from .ML.predict_diagnosis import *
 from .ML.train_ml_model import *
 
 
-def main(request):
+def main(request: HttpRequest) -> HttpResponse:
     return redirect('signin')
 
-def signup(request):
-	if request.method == 'POST':
-		form = UserRegistrationForm(request.POST, request.FILES)
-		if form.is_valid():
-			user = form.save()
-			user.set_password(form.cleaned_data['password'])
-			user.save()
-			login(request, user)
-			return redirect('/')
-	else:
-		form = UserRegistrationForm()
-		logout(request)
-	return render(request, 'DiseaseDetector/signup.html', {'form': form})
+
+def signup(request: HttpRequest) -> HttpResponse:
+    if request.method == 'POST':
+        form = UserRegistrationForm(request.POST, request.FILES)
+        if form.is_valid():
+            user = form.save()
+            user.set_password(form.cleaned_data['password'])
+            user.save()
+            login(request, user)
+            return redirect('/')
+    else:
+        form = UserRegistrationForm()
+        logout(request)
+    return render(request, 'DiseaseDetector/signup.html', {'form': form})
 
 
-def signin(request):
+def signin(request: HttpRequest) -> HttpResponse:
     if request.method == 'POST':
         form = UserLoginForm(request.POST)
         if form.is_valid():
@@ -54,16 +51,15 @@ def signin(request):
             return render(request, 'DiseaseDetector/signin.html', {'form': form})
         else:
             return redirect('/survey')
-    
 
 
-def signout(request):
+def signout(request: HttpRequest) -> HttpResponse:
     if request.user.is_authenticated:
         logout(request)
     return redirect('/')
 
 
-def profile(request, username):
+def profile(request: HttpRequest, username: str) -> HttpResponse:
     user = User.objects.by_username(username)
     if user is not None:
         return render(request, 'DiseaseDetector/profile.html', {'profile': user})
@@ -71,17 +67,19 @@ def profile(request, username):
         raise Http404
 
 
-def survey(request):
-    #if auth.get_user(request).is_anonymous:
+def survey(request: HttpRequest) -> HttpResponse:
+    # if auth.get_user(request).is_anonymous:
     #    return redirect('/signin')
-    #else:
-        return render(request, 'DiseaseDetector/survey.html', )
+    # else:
+    return render(request, 'DiseaseDetector/survey.html', )
+
 
 def survey_questionnaire(request: HttpRequest) -> HttpResponse:
-    return JsonResponse(surveyjs_io_json, safe=False)
+    return JsonResponse(surveyjs_io_json)
+
 
 @csrf_exempt
-def survey_response(request):
+def survey_response(request: HttpRequest) -> HttpResponse:
     result = OncologyAlertnessQuestionnaire.from_json(request.body)
     result_as_json = result.to_json()
     result_as_dict = json.loads(result_as_json)
@@ -104,3 +102,6 @@ def survey_response(request):
     question.save()
 
     print(int(predict_diagnosis(json_to_arr(result_as_json))))
+    # TODO: save as json to database
+    return HttpResponse(status=HTTPStatus.NO_CONTENT)
+
