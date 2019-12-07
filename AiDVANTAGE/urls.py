@@ -16,7 +16,9 @@ Including another URLconf
 from django.conf.urls import url, include
 from django.contrib import admin
 
+from DiseaseDetector import urls as DiseaseDetectorUrls
+
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^', include('DiseaseDetector.urls'), name="DiseaseDetector"),
+    url(r'^', include(DiseaseDetectorUrls), name="DiseaseDetector"),
 ]

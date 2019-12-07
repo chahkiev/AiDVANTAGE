@@ -1,5 +1,4 @@
 from django.conf.urls import url
-from django.views.decorators.csrf import csrf_exempt
 
 from DiseaseDetector.views import *
 
@@ -18,13 +17,11 @@ urlpatterns = [
     url(r'^survey_questionnaire\.json$', survey_questionnaire, name='survey_questionnaire.json'),
 
     # Получает ответ на анкету
-    # TODO: доделать регистрацию - как определять, какой пользователь прислал ответ?
-    # TODO: fix error
-    # Forbidden (CSRF token missing or incorrect.): /survey_response/
-    # [24/Nov/2019 20:54:23] "POST /survey_response/ HTTP/1.1" 403 2513
-
     url(r'^survey_response/$', csrf_exempt(survey_response), name='survey_response'),
 
     # возвращает страницу с данными пользователя
     url(r'^user/(?P<username>[a-zA-Zа-яА-Я _\-.0-9]+?)$', profile, name='profile'),
+
+    # отрисовывает страницу с результатами опросов
+    url(r'^view_results/$', view_results, name='view_results'),
 ]
