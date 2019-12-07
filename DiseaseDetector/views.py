@@ -49,7 +49,7 @@ def signin(request: HttpRequest) -> HttpResponse:
             form = UserLoginForm()
             return render(request, 'DiseaseDetector/signin.html', {'form': form})
         else:
-            return redirect('/survey')
+            return redirect('/view_results')
 
 
 def signout(request: HttpRequest) -> HttpResponse:
@@ -104,11 +104,7 @@ def survey_response(request: HttpRequest) -> HttpResponse:
     question.save()
 
     question_id = question.id
-    newral_network_diagnose = int(predict_diagnosis(json_to_arr(result_as_json)))
-    if newral_network_diagnose == 0:
-        newral_network_diagnose = "Все нормально"
-    else:
-        newral_network_diagnose = "Болеешь"
+    newral_network_diagnose = str(predict_diagnosis(json_to_arr(result_as_json)))
 
     print(question.id)
     quetsion_instance = Question.objects.filter(id=question_id).first()
@@ -122,4 +118,8 @@ def survey_response(request: HttpRequest) -> HttpResponse:
 
 
 def view_results(request: HttpRequest) -> HttpResponse:
-    return render(request, 'DiseaseDetector/list_of_results.html')
+    if auth.get_user(request).is_anonymous:
+        return redirect('/signin')
+    else:
+        answers = Diagnoses.objects.select_related('patient')
+        return render(request, 'DiseaseDetector/list_of_results.html', {'answers': answers} )

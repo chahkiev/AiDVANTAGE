@@ -1,16 +1,44 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-<table>
-    <tr>
-        <td>
-            TODO
-        </td>
-    </tr>
-</table>
-</body>
-</html>
+{% extends "DiseaseDetector/base.html" %}
+{% load static %}
+
+
+
+{% block headerName %}
+    <h3>Результаты</h3>
+
+{% endblock %}
+
+{% block content %}
+    <div class="main_table table table-striped table-bordered">
+        <table id="example" class="display" style="width:100%">
+            <thead>
+                <tr>
+                    <th>ФИО</th>
+                    <th>Возраст</th>
+                    <th>Результат</th>
+                    <th>Утверждено врачом</th>
+                    <th>Подробнее</th>
+                </tr>
+            </thead>
+            <tbody>
+
+             {% for item in answers %}
+                <tr>
+                    <td>{{item.patient.FIO}}</td>
+                    <td>{{item.patient.q1}}</td>
+                    <td>{{item.newral_network_diagnose}}</td>
+                    <td>
+                        {% if item.dockor_diagnose %}
+                            {{item.dockor_diagnose}}
+                        {% else %}
+                            Нет
+                        {% endif %}
+                    </td>
+                    <td>Ссылка</td>
+                </tr>
+            </tbody>
+            {% endfor %}
+        </table>
+    </div>
+{% endblock %}
+
