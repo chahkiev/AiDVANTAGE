@@ -27,6 +27,9 @@ class OncologyAlertnessQuestionnaire:
     class Q1(int):
         """Возраст:"""
 
+        def value(this) -> int:
+            return this
+
     q1: Q1
 
     class Q2(Enum):
@@ -38,8 +41,9 @@ class OncologyAlertnessQuestionnaire:
 
     class Q3(Enum):
         """Работали ли Вы на предприятиях с повышенной вредностью (горячий цех, химическое производство, нефтеперерабатывающее предприятие)?"""
-        _0 = 'Да'
-        _1 = 'Нет'
+        _0 = 'Да, есть или были в прошлом'
+        _1 = 'Есть или были в прошлом'
+        _2 = 'Нет'
 
     q3: Q3
 
