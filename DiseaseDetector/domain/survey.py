@@ -375,7 +375,19 @@ class OncologyAlertnessQuestionnaire:
         all_survey = {
             "locale": "ru",
             "loadingHtml": "Загрузка",
-            "completedHtml": "Спасибо, ваши ответы записаны. Ожидайте приёма врача.",
+            "completedHtml": {
+                "ru": '''
+                <span>
+                    Спасибо, ваши ответы записаны. Ожидайте приёма врача.
+                </span><script>
+                    window.addEventListener('load', () => {
+                        setTimeout( () => {
+                            window.location.reload();  
+                        }, 60000);
+                    })
+                </script>'''
+            },
+
             "pages": pages,
             "showQuestionNumbers": "off",
             "showProgressBar": "top",
