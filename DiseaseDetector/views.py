@@ -9,6 +9,8 @@ from django.http import JsonResponse
 from django.http.request import HttpRequest
 from django.shortcuts import render, redirect
 from django.contrib import auth
+from django.views.decorators.csrf import csrf_exempt
+import json
 
 from DiseaseDetector.forms import UserLoginForm, UserRegistrationForm
 from DiseaseDetector.models import *
@@ -76,8 +78,9 @@ def survey(request):
 def survey_questionnaire(request: HttpRequest) -> HttpResponse:
     return JsonResponse(surveyjs_io_json, safe=False)
 
-
-def survey_response(request: HttpRequest) -> HttpResponse:
+@csrf_exempt
+def survey_response(request):
     result = OncologyAlertnessQuestionnaire.from_json(request.body)
+    print(result)
     # TODO: create database for answer
     # TODO: save as json to database
