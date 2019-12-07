@@ -86,23 +86,37 @@ def survey_response(request: HttpRequest) -> HttpResponse:
     # TODO: create database for answer
     # TODO: save as json to database V
 
-    question = Question.objects.create(
-        Doctor="", Datetime=20191212173212, FIO="", Acception=True,
-        q0=result_as_dict['q0'], q1=result_as_dict['q1'], q2=result_as_dict['q2'],
-        q3=result_as_dict['q3'], q4=result_as_dict['q4'], q5=result_as_dict['q5'],
-        q6=result_as_dict['q6'], q7=result_as_dict['q7'], q8=result_as_dict['q8'],
-        q9=result_as_dict['q9'], q10=result_as_dict['q10'], q11=result_as_dict['q11'],
-        q12=result_as_dict['q12'], q13=result_as_dict['q13'], q14=result_as_dict['q14'],
-        q15=result_as_dict['q15'], q16=result_as_dict['q16'], q17=result_as_dict['q17'],
-        q18=result_as_dict['q18'], q19=result_as_dict['q19'], q20=result_as_dict['q20'],
-        q21=result_as_dict['q21'], q22=result_as_dict['q22'], q23=result_as_dict['q23'],
-        q24=result_as_dict['q24'], q25=result_as_dict['q25'], q26=result_as_dict['q26'],
-        q27=result_as_dict['q27'], q28=result_as_dict['q28'], q29=result_as_dict['q29'],
-        q30=result_as_dict['q31'], q31=result_as_dict['q31'], q32=result_as_dict['q32'],
-    )
+    FIO = result_as_dict['name'] + " " + result_as_dict['surname']
+    print(FIO)
+
+    question = Question.objects.create(Doctor="", Datetime=20191212173212, FIO=FIO, Acception=True,
+                                       q0=result_as_dict['q0'], q1=result_as_dict['q1'], q2=result_as_dict['q2'],
+                                       q3=result_as_dict['q3'], q4=result_as_dict['q4'], q5=result_as_dict['q5'],
+                                       q6=result_as_dict['q6'], q7=result_as_dict['q7'], q8=result_as_dict['q8'],
+                                       q9=result_as_dict['q9'], q10=result_as_dict['q10'], q11=result_as_dict['q11'],
+                                       q12=result_as_dict['q12'], q13=result_as_dict['q13'], q14=result_as_dict['q14'],
+                                       q15=result_as_dict['q15'], q16=result_as_dict['q16'], q17=result_as_dict['q17'],
+                                       q18=result_as_dict['q18'], q19=result_as_dict['q19'], q20=result_as_dict['q20'],
+                                       q21=result_as_dict['q21'], q22=result_as_dict['q22'], q23=result_as_dict['q23'],
+                                       q24=result_as_dict['q24'], q25=result_as_dict['q25'], q26=result_as_dict['q26'],
+                                       q27=result_as_dict['q27'], q28=result_as_dict['q28'], q29=result_as_dict['q29'],
+                                       q30=result_as_dict['q31'], q31=result_as_dict['q31'], q32=result_as_dict['q32'])
     question.save()
 
-    print(int(predict_diagnosis(json_to_arr(result_as_json))))
+    question_id = question.id
+    newral_network_diagnose = int(predict_diagnosis(json_to_arr(result_as_json)))
+    if newral_network_diagnose == 0:
+        newral_network_diagnose = "Все нормально"
+    else:
+        newral_network_diagnose = "Болеешь"
+
+    print(question.id)
+    quetsion_instance = Question.objects.filter(id=question_id).first()
+    print(newral_network_diagnose)
+
+    diagnose = Diagnoses.objects.create(patient=quetsion_instance, newral_network_diagnose=newral_network_diagnose)
+    diagnose.save()
+
     # TODO: save as json to database
     return HttpResponse(status=HTTPStatus.NO_CONTENT)
 
