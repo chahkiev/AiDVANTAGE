@@ -87,7 +87,10 @@ def survey_response(request: HttpRequest) -> HttpResponse:
     # TODO: create database for answer
     # TODO: save as json to database V
 
-    question = Question.objects.create(Doctor="", Datetime=20191212173212, FIO="", Acception=True, 
+    FIO = result_as_dict['name'] + " " + result_as_dict['surname']
+    print(FIO)
+
+    question = Question.objects.create(Doctor="", Datetime=20191212173212, FIO=FIO, Acception=True, 
                                         q0=result_as_dict['q0'], q1=result_as_dict['q1'], q2=result_as_dict['q2'],
                                         q3=result_as_dict['q3'], q4=result_as_dict['q4'], q5=result_as_dict['q5'],
                                         q6=result_as_dict['q6'], q7=result_as_dict['q7'], q8=result_as_dict['q8'],
@@ -100,8 +103,21 @@ def survey_response(request: HttpRequest) -> HttpResponse:
                                         q27=result_as_dict['q27'], q28=result_as_dict['q28'],q29=result_as_dict['q29'], 
                                         q30=result_as_dict['q31'], q31=result_as_dict['q31'],q32=result_as_dict['q32'])
     question.save()
+    
+    question_id = question.id
+    newral_network_diagnose = int(predict_diagnosis(json_to_arr(result_as_json)))
+    if newral_network_diagnose == 0:
+        newral_network_diagnose = "Все нормально"
+    else:
+        newral_network_diagnose = "Болеешь"
 
-    print(int(predict_diagnosis(json_to_arr(result_as_json))))
+    print(question.id)
+    quetsion_instance = Question.objects.filter(id=question_id).first()
+    print(newral_network_diagnose)
+
+    diagnose = Diagnoses.objects.create(patient=quetsion_instance, newral_network_diagnose=newral_network_diagnose)
+    diagnose.save()
+
+    
     # TODO: save as json to database
     return HttpResponse(status=HTTPStatus.NO_CONTENT)
-

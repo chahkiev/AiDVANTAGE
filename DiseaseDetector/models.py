@@ -62,3 +62,9 @@ class Question(models.Model):
     q30 = models.CharField(max_length=128, blank=True, null=True, default=None)
     q31 = models.CharField(max_length=128, blank=True, null=True, default=None)
     q32 = models.CharField(max_length=128, blank=True, null=True, default=None)
+
+
+class Diagnoses(models.Model):
+    patient = models.ForeignKey(Question, verbose_name=("Patients Answers"), on_delete=models.CASCADE)
+    newral_network_diagnose = models.CharField(max_length=128, blank=True, null=True, default=None)
+    dockor_diagnose = models.CharField(max_length=128, blank=True, null=True, default=None)
