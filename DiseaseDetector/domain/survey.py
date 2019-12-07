@@ -1,3 +1,4 @@
+import datetime
 import json
 import typing
 from enum import Enum
@@ -16,12 +17,6 @@ class OncologyAlertnessQuestionnaire:
     сереализуется в этот же json,
     используется для скармливания ML модели для получения предсказаний.
     """
-
-    # Порядок вопросов в анкете. Имена полей можно менять для удобства, порядок жёстко завязан
-    # на размеченных данных из '../../doc/размеченные данные анкеты онконастороженности.xlsx'
-    __slots__ = ['q0', 'q1', 'q2', 'q3', 'q4', 'q5', 'q6', 'q7', 'q8', 'q9', 'q10', 'q11',
-                 'q12', 'q13', 'q14', 'q15', 'q16', 'q17', 'q18', 'q19', 'q20', 'q21',
-                 'q22', 'q23', 'q24', 'q25', 'q26', 'q27', 'q28', 'q29', 'q30', 'q31', 'q32']
 
     class Q0(Enum):
         """Пол"""
@@ -270,8 +265,58 @@ class OncologyAlertnessQuestionnaire:
 
     q32: Q32
 
+    class Name(str):
+        """Ваше имя"""
+
+    name: Name
+
+    class Surname(str):
+        """фамилия"""
+
+    surname: Surname
+
+    class DoctorName(str):
+        """фамилия вашего доктора"""
+
+    doctor_name: typing.Optional[DoctorName] = None
+
+    class ConsultationTime(datetime.datetime):
+        """На какое время вы записаны к врачу"""
+
+    consultation_time: typing.Optional[ConsultationTime] = None
+
     @classmethod
     def to_surveyjs_io_json(cls) -> str:
+        def first_page() -> dict:
+            return {
+                "name": f"Как с вами связаться?",
+                "elements": [
+                    {
+                        "name": "name",
+                        "type": "text",
+                        "isRequired": True,
+                        "title": cls.Name.__doc__,
+                    }, {
+                        "name": "surname",
+                        "type": "text",
+                        "isRequired": True,
+                        "title": cls.Surname.__doc__,
+                    }, {
+                        "name": "doctor_name",
+                        "type": "text",
+                        "isRequired": False,
+                        "title": cls.DoctorName.__doc__,
+                    }, {
+                        "name": "consultation_time",
+                        "type": "text",  # нет выбора дат нормального?
+                        "isRequired": False,
+                        "title": cls.ConsultationTime.__doc__,
+                        "placeHolder": "03.12.19 14:30",
+                    },
+                ]
+            }
+
+        # для всех вопросов с выбором ответов из нескольких вариантов
         def one_page_enum(i: int, question: str, ansvers: typing.List[str]) -> dict:
             return {
                 "name": f"Страница {i}",
@@ -300,7 +345,13 @@ class OncologyAlertnessQuestionnaire:
             }
 
         pages = list()
-        for i, field_name in enumerate(cls.__slots__):
+        pages.append(first_page())
+
+        for i, field_name in enumerate([
+            'q0', 'q1', 'q2', 'q3', 'q4', 'q5', 'q6', 'q7', 'q8', 'q9', 'q10', 'q11',
+            'q12', 'q13', 'q14', 'q15', 'q16', 'q17', 'q18', 'q19', 'q20', 'q21',
+            'q22', 'q23', 'q24', 'q25', 'q26', 'q27', 'q28', 'q29', 'q30', 'q31', 'q32'
+        ]):
             type_of_field: type = cls.__dataclass_fields__[field_name].type
             question = type_of_field.__doc__
             if issubclass(type_of_field, Enum):
@@ -315,7 +366,7 @@ class OncologyAlertnessQuestionnaire:
         all_survey = {
             "locale": "ru",
             "loadingHtml": "Загрузка",
-            "completedHtml": "Спасибо, что прошли опрос. Врач просмотрит анкету перед вашим визитом.",
+            "completedHtml": "Спасибо, ваши ответы записаны. Ожидайте приёма врача.",
             "pages": pages,
             "showQuestionNumbers": "off",
             "showProgressBar": "top",
@@ -323,7 +374,7 @@ class OncologyAlertnessQuestionnaire:
             "startSurveyText": "Начать анкету",
             "pagePrevText": "Вернуться",
             "pageNextText": "Далее",
-            "completeText": "Завершить"
+            "completeText": "Завершить",
         }
 
         return json.dumps(all_survey, ensure_ascii=False, indent=4, sort_keys=True)
