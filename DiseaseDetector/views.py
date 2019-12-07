@@ -36,13 +36,15 @@ def signup(request: HttpRequest) -> HttpResponse:
 def signin(request: HttpRequest) -> HttpResponse:
     if request.method == 'POST':
         form = UserLoginForm(request.POST)
+        print(form.errors)
         if form.is_valid():
             username = form.cleaned_data['username']
             password = form.cleaned_data['password']
             user = authenticate(username=username, password=password)
             if user is not None:
                 login(request, user)
-                return redirect('/survey')
+                return redirect('/view_results')
+        raise Http404
 
     if request.method == 'GET':
         if auth.get_user(request).is_anonymous:
@@ -113,7 +115,6 @@ def survey_response(request: HttpRequest) -> HttpResponse:
     diagnose = Diagnoses.objects.create(patient=quetsion_instance, newral_network_diagnose=newral_network_diagnose)
     diagnose.save()
 
-    # TODO: save as json to database
     return HttpResponse(status=HTTPStatus.NO_CONTENT)
 
 
@@ -122,4 +123,25 @@ def view_results(request: HttpRequest) -> HttpResponse:
         return redirect('/signin')
     else:
         answers = Diagnoses.objects.select_related('patient')
+        # <a href="{% url 'product' product_image.product.id %}">
+        print(answers)
         return render(request, 'DiseaseDetector/list_of_results.html', {'answers': answers} )
+
+
+def detailed(request: HttpRequest, survey_id) -> HttpResponse:
+    answers = Diagnoses.objects.select_related('patient').filter(id=survey_id)
+    print(survey_id)
+
+    return render(request, 'DiseaseDetector/detailed_results.html', {'answers': answers} )
+
+
+@csrf_exempt
+def update_diagnose(request: HttpRequest, survey_id) -> HttpResponse:
+    new_diagnose = request.body.decode("utf-8").split('=')[1]
+
+    current_diagnose = Diagnoses.objects.get(id=survey_id)
+    current_diagnose.dockor_diagnose = new_diagnose 
+    current_diagnose.save()
+
+    answers = Diagnoses.objects.select_related('patient').filter(id=survey_id)
+    return render(request, 'DiseaseDetector/detailed_results.html', {'answers': answers} )

@@ -15,6 +15,10 @@ const main = async () => {
     Survey.StylesManager.applyTheme("bootstrap");
 };
 
+// change_diagnos.onclick = function() {
+//     alert('Клик!');
+// };
+
 main()
     .then((text) => {
         console.log(text);

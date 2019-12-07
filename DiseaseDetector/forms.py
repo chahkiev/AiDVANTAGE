@@ -4,15 +4,16 @@ from django.core.exceptions import ValidationError
 from django.contrib.auth import authenticate
 
 from DiseaseDetector.models import User
+from django.forms import ModelForm
 
 
 class UserLoginForm(forms.ModelForm):
-    username = forms.CharField(widget=forms.TextInput(attrs={
+    username = forms.CharField(required=False, widget=forms.TextInput(attrs={
         'class': 'form-control',
         'maxlength': 30,
         'placeholder': 'Username'}))
 
-    password = forms.CharField(widget=forms.PasswordInput(attrs={
+    password = forms.CharField(required=False, widget=forms.PasswordInput(attrs={
         'class': 'form-control',
         'placeholder': 'Password'}))
 

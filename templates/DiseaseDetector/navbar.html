@@ -1,10 +1,16 @@
 {% load static%}
 
 <nav class="navbar navbar-light bg-light">
-  <a href="" class="navbar-brand col-lg-5">AiDVANTAGE</a>
+  <a href="/signin" class="navbar-brand col-lg-5">AiDVANTAGE</a>
 
   {% if user.is_authenticated %}
     <div class="btn-group" role="group">
+      <a href="/survey">
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Анкета</button>
+      </a>
+      <a href="/view_results">
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Результаты</button>
+      </a>
       <button id="btnGroupDrop1" type="button" class="btn dropdown-toggle btn-outline-dark" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         {{ user }}
       </button>

@@ -24,4 +24,10 @@ urlpatterns = [
 
     # отрисовывает страницу с результатами опросов
     url(r'^view_results/$', view_results, name='view_results'),
+
+    # обновляет диагноз врача
+    url(r'^update_diagnose/(?P<survey_id>\w+)/$', csrf_exempt(update_diagnose), name='update_diagnose'),
+
+    # отрисовывает страницу с подробными результатами опроса
+    url(r'^detailed/(?P<survey_id>\w+)/$', detailed, name='detailed'),
 ]

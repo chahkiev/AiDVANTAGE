@@ -1,0 +1,76 @@
+{% extends "DiseaseDetector/base.html" %}
+{% load static %}
+
+
+
+{% block headerName %}
+    <h3>Результаты</h3>
+
+{% endblock %}
+
+{% block content %}
+
+    {% for item in answers %}
+    <div class="main_table table table-striped table-bordered">
+        <table id="example" class="display" style="width:100%">
+            <thead>
+                <tr>
+                    <th>ФИО пациента</th>
+                    <th>{{item.patient.FIO}}</th>
+                </tr>
+
+            </thead>
+
+            <tbody>
+                <tr>
+                    <td>1. Возраст</td>
+                    <td>{{item.patient.q1}}</td>
+                </tr>
+                <tr>
+                    <th>2. Результат нейронной сети</th>
+                    <th>{{item.newral_network_diagnose}}</th>
+                </tr>
+                <tr>
+                    <th>3. Диагноз врача</th>
+                    <th>
+                        {% if item.dockor_diagnose %}
+                            {{item.dockor_diagnose}}
+                        {% else %}
+                            Нет
+                        {% endif %}
+                        <form action="/update_diagnose/{{item.id}}/" method="post">
+                            <input id="diagnose_id" type="hidden" value="{{item.id}}"></label>
+                            <input type="text" id="new_diagnos_value" name="answer" placeholder="Введите новый диагноз">
+                            <input type="submit" id="change_diagnos" value="Изменить диагноз" />
+                        </form>
+                    </th>
+                </tr>
+                
+                <tr>
+                    <td>4. Подвержение ли Вы воздействию вредных условий</td>
+                    <td>{{item.patient.q2}}</td>
+                </tr>
+                <tr>
+                    <td>5. Работали ли Вы на предприятиях с повышенной вредностью (горячий цех, химическое производство, нефтеперерабатывающее предприятие)?</td>
+                    <td>{{item.patient.q3}}</td>
+                </tr>
+                <tr>
+                    <td>6. Болели ли Ваши кровные родственники злокачественными опухолевыми заболеваниями?</td>
+                    <td>{{item.patient.q4}}</td>
+                </tr>
+
+
+                <!-- Вставить также остальнее вопросы c 5 по 31 -->
+
+
+                <tr>
+                    <td>34. Замечали ли Вы у себя кровянистые выделения из половых путей после половых сношений, гинекологических осмотров или при запорах?</td>
+                    <td>{{item.patient.q32}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    {% endfor %}
+
+{% endblock %}
+
