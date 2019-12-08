@@ -158,74 +158,73 @@
         </table>
     </div>
         <form action="/update_diagnose/{{item.id}}/" method="post">
-        <div class="change">
-            <div class="radio">
-                <label>
-                    {% if item.dockor_diagnose %}
-                        {% if item.dockor_diagnose == 'Низкая вероятность онкологического заболевания' %}
-                            <input type="radio" name="optionsRadios" id="optionsRadios1" value="Низкая вероятность онкологического заболевания" checked>
-                            Низкая вероятность онкологического заболевания   
+            <div class="change">
+                <div class="radio">
+                    <label>
+                        {% if item.dockor_diagnose %}
+                            {% if item.dockor_diagnose == 'Низкая вероятность онкологического заболевания' %}
+                                <input type="radio" name="optionsRadios" id="optionsRadios1" value="1" checked>
+                                Низкая вероятность онкологического заболевания   
+                            {% else %}
+                                <input type="radio" name="optionsRadios" id="optionsRadios1" value="1">
+                                Низкая вероятность онкологического заболевания
+                            {% endif %}  
                         {% else %}
-                            <input type="radio" name="optionsRadios" id="optionsRadios1" value="Низкая вероятность онкологического заболевания">
-                            Низкая вероятность онкологического заболевания
+                            {% if item.newral_network_diagnose == 'Низкая вероятность онкологического заболевания' %}
+                                <input type="radio" name="optionsRadios" id="optionsRadios1" value="1" checked>
+                                Низкая вероятность онкологического заболевания 
+                            {% else %}
+                                <input type="radio" name="optionsRadios" id="optionsRadios1" value="1">
+                                Низкая вероятность онкологического заболевания 
+                            {% endif %}  
                         {% endif %}  
-                    {% else %}
-                        {% if item.newral_network_diagnose == 'Низкая вероятность онкологического заболевания' %}
-                            <input type="radio" name="optionsRadios" id="optionsRadios1" value="Низкая вероятность онкологического заболевания" checked>
-                            Низкая вероятность онкологического заболевания 
+                    </label>
+                </div>
+                <div class="radio">
+                    <label>
+                        {% if item.dockor_diagnose %}
+                            {% if item.dockor_diagnose == 'Онкологическое заболевание возможно и требуется проведение дополнительных процедур' %}
+                                <input type="radio" name="optionsRadios" id="optionsRadios2" value="2" checked>
+                                Онкологическое заболевание возможно и требуется проведение дополнительных процедур   
+                            {% else %}
+                                <input type="radio" name="optionsRadios" id="optionsRadios2" value="2">
+                                Онкологическое заболевание возможно и требуется проведение дополнительных процедур
+                            {% endif %}  
                         {% else %}
-                            <input type="radio" name="optionsRadios" id="optionsRadios1" value="Низкая вероятность онкологического заболевания">
-                            Низкая вероятность онкологического заболевания 
+                            {% if item.newral_network_diagnose == 'Онкологическое заболевание возможно и требуется проведение дополнительных процедур' %}
+                                <input type="radio" name="optionsRadios" id="optionsRadios2" value="2" checked>
+                                Онкологическое заболевание возможно и требуется проведение дополнительных процедур 
+                            {% else %}
+                                <input type="radio" name="optionsRadios" id="optionsRadios2" value="2">
+                                Онкологическое заболевание возможно и требуется проведение дополнительных процедур 
+                            {% endif %}  
                         {% endif %}  
-                    {% endif %}  
-                </label>
+                    </label>
+                </div>
+                <div class="radio">
+                    <label>
+                        {% if item.dockor_diagnose %}
+                            {% if item.dockor_diagnose == 'Высокая вероятность онкологического заболевания' %}
+                                <input type="radio" name="optionsRadios" id="optionsRadios3" value="3" checked>
+                                Высокая вероятность онкологического заболевания  
+                            {% else %}
+                                <input type="radio" name="optionsRadios" id="optionsRadios3" value="3">
+                                Высокая вероятность онкологического заболевания
+                            {% endif %}  
+                        {% else %}
+                            {% if item.newral_network_diagnose == 'Высокая вероятность онкологического заболевания' %}
+                                <input type="radio" name="optionsRadios" id="optionsRadios3" value="3" checked>
+                                Высокая вероятность онкологического заболевания 
+                            {% else %}
+                                <input type="radio" name="optionsRadios" id="optionsRadios3" value="3">
+                                Высокая вероятность онкологического заболевания 
+                            {% endif %}  
+                        {% endif %}  
+                    </label>
+                </div>
+                <input type="submit" id="change_diagnos" value="Изменить диагноз" />
             </div>
-            <div class="radio">
-                <label>
-                    {% if item.dockor_diagnose %}
-                        {% if item.dockor_diagnose == 'Онкологическое заболевание возможно и требуется проведение дополнительных процедур' %}
-                            <input type="radio" name="optionsRadios" id="optionsRadios2" value="Онкологическое заболевание возможно и требуется проведение дополнительных процедур" checked>
-                            Онкологическое заболевание возможно и требуется проведение дополнительных процедур   
-                        {% else %}
-                            <input type="radio" name="optionsRadios" id="optionsRadios2" value="Онкологическое заболевание возможно и требуется проведение дополнительных процедур">
-                            Онкологическое заболевание возможно и требуется проведение дополнительных процедур
-                        {% endif %}  
-                    {% else %}
-                        {% if item.newral_network_diagnose == 'Онкологическое заболевание возможно и требуется проведение дополнительных процедур' %}
-                            <input type="radio" name="optionsRadios" id="optionsRadios2" value="Онкологическое заболевание возможно и требуется проведение дополнительных процедур" checked>
-                            Онкологическое заболевание возможно и требуется проведение дополнительных процедур 
-                        {% else %}
-                            <input type="radio" name="optionsRadios" id="optionsRadios2" value="Онкологическое заболевание возможно и требуется проведение дополнительных процедур">
-                            Онкологическое заболевание возможно и требуется проведение дополнительных процедур 
-                        {% endif %}  
-                    {% endif %}  
-                </label>
-            </div>
-            <div class="radio">
-                <label>
-                    {% if item.dockor_diagnose %}
-                        {% if item.dockor_diagnose == 'Высокая вероятность онкологического заболевания' %}
-                            <input type="radio" name="optionsRadios" id="optionsRadios3" value="Высокая вероятность онкологического заболевания" checked>
-                            Высокая вероятность онкологического заболевания  
-                        {% else %}
-                            <input type="radio" name="optionsRadios" id="optionsRadios3" value="Высокая вероятность онкологического заболевания">
-                            Высокая вероятность онкологического заболевания
-                        {% endif %}  
-                    {% else %}
-                        {% if item.newral_network_diagnose == 'Высокая вероятность онкологического заболевания' %}
-                            <input type="radio" name="optionsRadios" id="optionsRadios3" value="Высокая вероятность онкологического заболевания" checked>
-                            Высокая вероятность онкологического заболевания 
-                        {% else %}
-                            <input type="radio" name="optionsRadios" id="optionsRadios3" value="Высокая вероятность онкологического заболевания">
-                            Высокая вероятность онкологического заболевания 
-                        {% endif %}  
-                    {% endif %}  
-                </label>
-            </div>
-            <input type="submit" id="change_diagnos" value="Изменить диагноз" />
-            </div>
-    
-    </form>
+        </form>
     {% endfor %}
 
 {% endblock %}

@@ -137,11 +137,19 @@ def detailed(request: HttpRequest, survey_id) -> HttpResponse:
 
 @csrf_exempt
 def update_diagnose(request: HttpRequest, survey_id) -> HttpResponse:
-    new_diagnose = request.body.decode("utf-8").split('=')[1]
+    new_diagnose_code = request.body.decode("utf-8").split('=')[1]
+
+    if new_diagnose_code == '1':
+        new_diagnose = 'Низкая вероятность онкологического заболевания'
+    elif new_diagnose_code == '2':
+        new_diagnose = 'Онкологическое заболевание возможно и требуется проведение дополнительных процедур'
+    elif new_diagnose_code == '3':
+        new_diagnose = 'Высокая вероятность онкологического заболевания'
 
     current_diagnose = Diagnoses.objects.get(id=survey_id)
     current_diagnose.dockor_diagnose = new_diagnose 
     current_diagnose.save()
 
     answers = Diagnoses.objects.select_related('patient').filter(id=survey_id)
-    return render(request, 'DiseaseDetector/detailed_results.html', {'answers': answers} )
+    return render(request, 'DiseaseDetector/detailed_results.html', {'answers': answers})
+s
