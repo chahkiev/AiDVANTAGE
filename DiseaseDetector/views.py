@@ -10,7 +10,7 @@ from django.views.decorators.csrf import csrf_exempt
 
 from DiseaseDetector.forms import UserLoginForm, UserRegistrationForm
 from DiseaseDetector.models import *
-from .ML.predict_diagnosis import *
+from .ML.predict_diagnosis_ver2 import *
 from .domain.survey import surveyjs_io_json, OncologyAlertnessQuestionnaire
 
 
