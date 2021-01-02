@@ -20,12 +20,12 @@ Our team is creating a system that will help a doctor to analyze information abo
 
 ### Команда:
 * [Абдуллаев Абдурашид Абдерагимович](https://vk.com/rash708) - neural network, data visualisation
+* [Гасанов Нику Гаджимурадович](https://vk.com/gasanovniko) - neural network
 * [Горожанкина София Алексеевна](https://vk.com/v_mskv) - product manager, PR-manager
 * [Мамадаев Ибрагим Магомедович](https://vk.com/ibragim_bey) - neural network, hardware
 * [Семенов Максим Витальевич](https://vk.com/olegschwann) - backend, DevOps
-* [Гасанов Нику Гаджимурадович](https://vk.com/handsomeniks) - neural network
-* [Червяков Евгений Владимирович](https://vk.com/id123048800) - data processing
 * [Трамов Ислам Борисович](https://vk.com/id69006297) - neural network, data processing
 * [Чахкиев Магомед Темирланович](https://vk.com/chahkiev_maga) - backend, hardware
+* [Червяков Евгений Владимирович](https://vk.com/id123048800) - data processing
 * [Шашкин Юрий Анатольевич](https://vk.com/id52223773) - lead, product manager
 * [Шихыев Эмиль Шаикович](https://vk.com/slan_one) - tester
